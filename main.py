@@ -1,4 +1,5 @@
 
+from urllib.parse import quote
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pathlib import Path
@@ -60,20 +61,24 @@ def carrier_response(data: bytes, filename: str, media_type: str):
 def recovered_response(result):
     filename, data, digest = result
 
+    safe_filename = quote(filename, safe="")
+
     return Response(
         content=data,
         media_type="application/octet-stream",
         headers={
-"Content-Disposition": f'attachment; filename="{filename}"',            "X-SONORA-Filename": filename,
+            "Content-Disposition": (
+                f"attachment; filename=\"recovered.bin\"; "
+                f"filename*=UTF-8''{safe_filename}"
+            ),
             "X-SONORA-SHA256": digest,
-        },      
+        },
     )
-
 
 @app.get("/")
 def home():
     return FileResponse("index.html")
-    
+
 @app.get("/health")
 def health():
     return {"status": "ok"}
