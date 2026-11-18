@@ -1,0 +1,244 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SONORA | Weird Storage</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #0c0c12;
+            color: #eeeeF5;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+        }
+
+        header {
+            height: 75px;
+            padding: 0 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #292936;
+            background: #11111a;
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            color: #b8a5ff;
+        }
+
+        .status {
+            color: #72e6a1;
+            font-size: 13px;
+        }
+
+        main {
+            max-width: 850px;
+            margin: 75px auto;
+            padding: 20px;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            color: #9999ad;
+            line-height: 1.6;
+        }
+
+        .panel {
+            background: #15151f;
+            border: 1px solid #303041;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .panel h2 {
+            font-size: 18px;
+            margin-bottom: 18px;
+        }
+
+        .operations {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .operation {
+            background: #20202e;
+            color: white;
+            border: 1px solid #353548;
+            border-radius: 10px;
+            padding: 18px;
+            cursor: pointer;
+            text-align: left;
+            transition: 0.2s;
+        }
+
+        .operation:hover {
+            border-color: #a58aff;
+            background: #29253b;
+        }
+
+        .operation.active {
+            border-color: #a58aff;
+            background: #302849;
+        }
+
+        .operation strong {
+            display: block;
+            margin-bottom: 7px;
+        }
+
+        .operation span {
+            color: #9999ad;
+            font-size: 12px;
+        }
+
+        .upload {
+            border: 2px dashed #414158;
+            border-radius: 12px;
+            padding: 35px 15px;
+            text-align: center;
+            cursor: pointer;
+            color: #aaaac0;
+        }
+
+        .upload:hover {
+            border-color: #a58aff;
+        }
+
+        .upload input {
+            display: none;
+        }
+
+        #filename {
+            margin-top: 12px;
+            color: #b8a5ff;
+            font-size: 13px;
+        }
+
+        .run {
+            width: 100%;
+            margin-top: 20px;
+            padding: 15px;
+            background: #9878ef;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .run:hover {
+            background: #aa91ff;
+        }
+
+        .run:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        #result {
+            margin-top: 18px;
+            color: #aaaac0;
+            font-size: 13px;
+            line-height: 1.6;
+            overflow-wrap: anywhere;
+        }
+
+        @media (max-width: 550px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .operations {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">SONORA</div>
+    <div class="status">● SYSTEM READY</div>
+</header>
+
+<main>
+
+    <section class="hero">
+        <h1>Files, transformed.</h1>
+        <p>
+            Hide files inside ordinary image and audio formats.
+            Recover them whenever you need.
+        </p>
+    </section>
+
+    <section class="panel">
+        <h2>01 / Choose an operation</h2>
+
+        <div class="operations">
+            <button class="operation" data-operation="encode/png">
+                <strong>🖼 Encode to PNG</strong>
+                <span>File → Image</span>
+            </button>
+
+            <button class="operation" data-operation="encode/wav">
+                <strong>🔊 Encode to WAV</strong>
+                <span>File → Audio</span>
+            </button>
+
+            <button class="operation" data-operation="decode/png">
+                <strong>📥 Decode PNG</strong>
+                <span>Image → Original file</span>
+            </button>
+
+            <button class="operation" data-operation="decode/wav">
+                <strong>🎵 Decode WAV</strong>
+                <span>Audio → Original file</span>
+            </button>
+        </div>
+    </section>
+
+    <section class="panel">
+        <h2>02 / Select your file</h2>
+
+        <label class="upload">
+            <input type="file" id="fileInput">
+            <div>☁️</div>
+            <p>Click to select a file</p>
+            <div id="filename">No file selected</div>
+        </label>
+
+        <button class="run" id="runButton">
+            Execute operation
+        </button>
+
+        <div id="result"></div>
+    </section>
+
+</main>
+
+</body>
+</html>
