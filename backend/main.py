@@ -1,41 +1,43 @@
 
+
+import hashlib
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
 
 from sonora import (
     encode_wav,
-    encode_png,
     decode_wav,
+    encode_png,
     decode_png,
     sha256,
-    MAX_FILE_SIZE,
+    MAX_FILE_SIZE
 )
 
-app = FastAPI(title="SONORA API", version="0.1.0")
+app = FastAPI(
+    title="SONORA",
+    description="Reversible file storage through image and audio carriers.",
+    version="1.0.0"
+)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Restrict this to our frontend later
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+MAX_UPLOAD_SIZE = MAX_FILE_SIZE + 1024 * 1024
+
 
 async def read_upload(file: UploadFile) -> bytes:
-    data = await file.read(MAX_FILE_SIZE + 1)
+    data = await file.read(MAX_UPLOAD_SIZE + 1)
 
-    if len(data) > MAX_FILE_SIZE:
-        raise HTTPException(
-            status_code=413,
-            detail="File exceeds the 25 MB limit."
-        )
+    if len(data) > MAX_UPLOAD_SIZE:
+        raise HTTPException(status_code=413, detail="Upload too large.")
 
     if not data:
-        raise HTTPException(
-            status_code=400,
-            detail="Empty files are not supported."
-        )
+        raise HTTPException(status_code=400, detail="Empty file.")
 
     return data
 
@@ -69,8 +71,9 @@ def recovered_response(result):
 def home():
     return {
         "name": "SONORA",
-        "version": "0.1.0",
+        "version": "1.0.0",
         "status": "online",
+        "message": "Reversible file storage through image and audio carriers."
     }
 
 
@@ -79,9 +82,8 @@ def health():
     return {"status": "ok"}
 
 
-# Any file -> WAV carrier
 @app.post("/encode/wav")
-async def to_wav(file: UploadFile = File(...)):
+async def file_to_wav(file: UploadFile = File(...)):
     data = await read_upload(file)
 
     try:
@@ -89,16 +91,11 @@ async def to_wav(file: UploadFile = File(...)):
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc))
 
-    return carrier_response(
-        result,
-        "sonora-carrier.wav",
-        "audio/wav",
-    )
+    return carrier_response(result, "sonora.wav", "audio/wav")
 
 
-# Any file -> PNG carrier
 @app.post("/encode/png")
-async def to_png(file: UploadFile = File(...)):
+async def file_to_png(file: UploadFile = File(...)):
     data = await read_upload(file)
 
     try:
@@ -106,16 +103,11 @@ async def to_png(file: UploadFile = File(...)):
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc))
 
-    return carrier_response(
-        result,
-        "sonora-carrier.png",
-        "image/png",
-    )
+    return carrier_response(result, "sonora.png", "image/png")
 
 
-# SONORA WAV -> original file
 @app.post("/decode/wav")
-async def from_wav(file: UploadFile = File(...)):
+async def wav_to_file(file: UploadFile = File(...)):
     data = await read_upload(file)
 
     try:
@@ -126,9 +118,8 @@ async def from_wav(file: UploadFile = File(...)):
     return recovered_response(result)
 
 
-# SONORA PNG -> original file
 @app.post("/decode/png")
-async def from_png(file: UploadFile = File(...)):
+async def png_to_file(file: UploadFile = File(...)):
     data = await read_upload(file)
 
     try:
@@ -139,11 +130,10 @@ async def from_png(file: UploadFile = File(...)):
     return recovered_response(result)
 
 
-# Verify arbitrary files by comparing SHA-256 hashes
 @app.post("/verify")
-async def verify(
+async def verify_files(
     original: UploadFile = File(...),
-    recovered: UploadFile = File(...),
+    recovered: UploadFile = File(...)
 ):
     original_data = await read_upload(original)
     recovered_data = await read_upload(recovered)
@@ -156,5 +146,6 @@ async def verify(
         "original_sha256": original_hash,
         "recovered_sha256": recovered_hash,
         "original_size": len(original_data),
-        "recovered_size": len(recovered_data),
+        "recovered_size": len(recovered_data)
     }
+

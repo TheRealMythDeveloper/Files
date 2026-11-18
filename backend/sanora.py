@@ -152,3 +152,4 @@ def decode_png(data: bytes):
         raise ValueError("Invalid PNG carrier.") from exc
 
     return unpack_file(blob)
+
