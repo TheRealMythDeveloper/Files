@@ -351,16 +351,15 @@
                 }
             );
 
-            if (!response.ok) {
-                let message = "Operation failed.";
+           
+if (!response.ok) {
+    const errorText = await response.text();
 
-                try {
-                    const error = await response.json();
-                    message = error.detail || message;
-                } catch {}
+    throw new Error(
+        `Server returned ${response.status}: ${errorText}`
+    );
+}
 
-                throw new Error(message);
-            }
 
             const blob = await response.blob();
 
