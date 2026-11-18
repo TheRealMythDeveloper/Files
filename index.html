@@ -238,9 +238,110 @@
         <div id="result"></div>
     </section>
 
-</main>
 
+<script>
+const API_URL = "https://sonora-57c9.onrender.com";
+
+let selectedOperation = null;
+
+const buttons = document.querySelectorAll(".operation");
+const fileInput = document.getElementById("fileInput");
+const filename = document.getElementById("filename");
+const runButton = document.getElementById("runButton");
+const result = document.getElementById("result");
+
+// Select operation
+buttons.forEach(button => {
+    button.addEventListener("click", () => {
+        buttons.forEach(b => b.classList.remove("active"));
+
+        button.classList.add("active");
+        selectedOperation = button.dataset.operation;
+
+        result.textContent = "Selected: " + selectedOperation;
+    });
+});
+
+// Display selected file
+fileInput.addEventListener("change", () => {
+    const file = fileInput.files[0];
+
+    filename.textContent = file
+        ? file.name + " (" + (file.size / 1024).toFixed(2) + " KB)"
+        : "No file selected";
+});
+
+// Execute operation
+runButton.addEventListener("click", async () => {
+    const file = fileInput.files[0];
+
+    if (!selectedOperation) {
+        result.textContent = "Please choose an operation first.";
+        return;
+    }
+
+    if (!file) {
+        result.textContent = "Please select a file first.";
+        return;
+    }
+
+    if (file.size > 25 * 1024 * 1024) {
+        result.textContent = "File exceeds the 25 MB limit.";
+        return;
+    }
+
+    runButton.disabled = true;
+    result.textContent = "Processing file...";
+
+    try {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const response = await fetch(
+            `${API_URL}/${selectedOperation}`,
+            {
+                method: "POST",
+                body: formData
+            }
+        );
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.detail || "Operation failed.");
+        }
+
+        const blob = await response.blob();
+
+        // Get original filename from response header
+        let downloadName;
+
+        if (selectedOperation.startsWith("encode/")) {
+            downloadName = selectedOperation.endsWith("png")
+                ? "sonora.png"
+                : "sonora.wav";
+        } else {
+            downloadName =
+                response.headers.get("X-SONORA-Filename") || "recovered.bin";
+        }
+
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+
+        link.href = url;
+        link.download = downloadName;
+        link.click();
+
+        URL.revokeObjectURL(url);
+
+        result.textContent =
+            "Success! Your file is ready: " + downloadName;
+
+    } catch (error) {
+        result.textContent = "Error: " + error.message;
+    } finally {
+        runButton.disabled = false;
+    }
+});
+</script>
 </body>
 </html>
-
-I need to add osmemroe stuff
