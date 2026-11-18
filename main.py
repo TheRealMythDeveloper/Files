@@ -10,8 +10,8 @@ print("FILES HERE:", os.listdir("."))
 from sonora import (
     encode_wav,
     decode_wav,
-    encode_png,
-    decode_png,
+    encode_png, 
+    decode_png,   
     sha256,
     MAX_FILE_SIZE
 )
@@ -62,8 +62,7 @@ def recovered_response(result):
         content=data,
         media_type="application/octet-stream",
         headers={
-            "Content-Disposition": 'attachment; filename="recovered.bin"',
-            "X-SONORA-Filename": filename,
+"Content-Disposition": f'attachment; filename="{filename}"',            "X-SONORA-Filename": filename,
             "X-SONORA-SHA256": digest,
         },
     )
