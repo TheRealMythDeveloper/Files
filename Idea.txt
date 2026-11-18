@@ -1,0 +1,10 @@
+Music into PNGS and vice versa
+Could be cool?
+minamalistic... requires a backend. Render?
+
+
+I will use render for it.
+Backend of which sort?
+
+Hooooooww
+I hate python for this..
