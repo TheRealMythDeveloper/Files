@@ -370,11 +370,8 @@ if (!response.ok) {
             } else if (selectedOperation === "encode/wav") {
                 downloadName = "sonora.wav";
             } else {
-                downloadName =
-                    response.headers.get("X-SONORA-Filename")
-                    || "recovered.bin";
+                downloadName = "recovered.bin";
             }
-
             const url = URL.createObjectURL(blob);
             const link = document.createElement("a");
 
