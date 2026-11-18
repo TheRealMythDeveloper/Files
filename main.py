@@ -1,5 +1,7 @@
 
-
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+from pathlib import Path
 import hashlib
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -70,14 +72,8 @@ def recovered_response(result):
 
 @app.get("/")
 def home():
-    return {
-        "name": "SONORA",
-        "version": "1.0.0",
-        "status": "online",
-        "message": "Reversible file storage through image and audio carriers."
-    }
-
-
+    return FileResponse("index.html")
+    
 @app.get("/health")
 def health():
     return {"status": "ok"}
@@ -149,4 +145,7 @@ async def verify_files(
         "original_size": len(original_data),
         "recovered_size": len(recovered_data)
     }
+
+
+
 
