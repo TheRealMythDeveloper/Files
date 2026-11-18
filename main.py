@@ -4,10 +4,12 @@ import hashlib
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
-
+import os
+print("CURRENT DIRECTORY:", os.getcwd())
+print("FILES HERE:", os.listdir("."))
 from sonora import (
     encode_wav,
-    decode_wav,
+    decode_wava,
     encode_png,
     decode_png,
     sha256,
