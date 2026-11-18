@@ -9,7 +9,7 @@ print("CURRENT DIRECTORY:", os.getcwd())
 print("FILES HERE:", os.listdir("."))
 from sonora import (
     encode_wav,
-    decode_wava,
+    decode_wav,
     encode_png,
     decode_png,
     sha256,
