@@ -149,5 +149,4 @@ async def verify_files(
         "recovered_sha256": recovered_hash,
         "original_size": len(original_data),
         "recovered_size": len(recovered_data)
-    }
-
+    
