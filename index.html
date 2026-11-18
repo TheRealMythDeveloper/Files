@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SONORA | Weird Storage</title>
+    <title>SONORA</title>
 
     <style>
         * {
@@ -14,65 +14,66 @@
         }
 
         body {
-            background: #0c0c12;
-            color: #eeeeF5;
+            background: #0b0c10;
+            color: #e8e9ef;
             font-family: Arial, sans-serif;
             min-height: 100vh;
         }
 
         header {
-            height: 75px;
-            padding: 0 7%;
+            height: 70px;
+            padding: 0 8%;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid #292936;
-            background: #11111a;
+            background: #11131a;
+            border-bottom: 1px solid #252833;
         }
 
         .logo {
-            font-size: 23px;
-            font-weight: bold;
-            letter-spacing: 3px;
-            color: #b8a5ff;
+            color: #b49aff;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 4px;
         }
 
         .status {
-            color: #72e6a1;
-            font-size: 13px;
+            font-size: 12px;
+            color: #77dba1;
         }
 
         main {
-            max-width: 850px;
+            width: min(760px, 92%);
             margin: 75px auto;
-            padding: 20px;
         }
 
         .hero {
-            text-align: center;
-            margin-bottom: 45px;
+            margin-bottom: 38px;
         }
 
         .hero h1 {
-            font-size: 48px;
-            margin-bottom: 15px;
+            font-size: clamp(32px, 6vw, 48px);
+            margin-bottom: 12px;
         }
 
         .hero p {
-            color: #9999ad;
+            color: #9296a5;
             line-height: 1.6;
+            font-size: 15px;
         }
 
         .panel {
-            background: #15151f;
-            border: 1px solid #303041;
-            border-radius: 16px;
+            background: #13151d;
+            border: 1px solid #292d39;
+            border-radius: 12px;
             padding: 25px;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
-        .panel h2 {
-            font-size: 18px;
+        .section-title {
+            font-size: 13px;
+            color: #9b9eae;
+            letter-spacing: 1.5px;
             margin-bottom: 18px;
         }
 
@@ -83,74 +84,89 @@
         }
 
         .operation {
-            background: #20202e;
-            color: white;
-            border: 1px solid #353548;
-            border-radius: 10px;
-            padding: 18px;
-            cursor: pointer;
+            background: #1b1e28;
+            color: #e8e9ef;
+            border: 1px solid #303443;
+            border-radius: 8px;
+            padding: 19px;
             text-align: left;
+            cursor: pointer;
             transition: 0.2s;
         }
 
         .operation:hover {
-            border-color: #a58aff;
-            background: #29253b;
+            border-color: #9275d9;
+            background: #242334;
         }
 
         .operation.active {
-            border-color: #a58aff;
-            background: #302849;
+            border-color: #a88aff;
+            background: #29243a;
         }
 
         .operation strong {
             display: block;
+            font-size: 14px;
             margin-bottom: 7px;
         }
 
         .operation span {
-            color: #9999ad;
+            color: #9296a5;
             font-size: 12px;
         }
 
         .upload {
-            border: 2px dashed #414158;
-            border-radius: 12px;
+            display: block;
+            border: 1px dashed #454a5b;
+            border-radius: 9px;
             padding: 35px 15px;
             text-align: center;
             cursor: pointer;
-            color: #aaaac0;
+            transition: 0.2s;
         }
 
         .upload:hover {
-            border-color: #a58aff;
+            border-color: #a88aff;
+            background: #191824;
         }
 
         .upload input {
             display: none;
         }
 
+        .upload-title {
+            font-size: 15px;
+            margin-bottom: 8px;
+        }
+
+        .upload-subtitle {
+            color: #9296a5;
+            font-size: 12px;
+        }
+
         #filename {
-            margin-top: 12px;
-            color: #b8a5ff;
+            color: #b49aff;
             font-size: 13px;
+            margin-top: 15px;
+            overflow-wrap: anywhere;
         }
 
         .run {
             width: 100%;
-            margin-top: 20px;
             padding: 15px;
-            background: #9878ef;
-            color: white;
+            margin-top: 18px;
+            background: #9675e8;
             border: none;
-            border-radius: 10px;
-            font-size: 15px;
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
             font-weight: bold;
             cursor: pointer;
+            transition: 0.2s;
         }
 
         .run:hover {
-            background: #aa91ff;
+            background: #aa8df5;
         }
 
         .run:disabled {
@@ -159,20 +175,39 @@
         }
 
         #result {
+            display: none;
             margin-top: 18px;
-            color: #aaaac0;
+            padding: 14px;
+            border-radius: 8px;
+            background: #1b1e28;
+            color: #b9bdcb;
             font-size: 13px;
             line-height: 1.6;
             overflow-wrap: anywhere;
         }
 
+        #result.visible {
+            display: block;
+        }
+
+        footer {
+            text-align: center;
+            color: #626777;
+            font-size: 11px;
+            padding: 25px;
+        }
+
         @media (max-width: 550px) {
-            .hero h1 {
-                font-size: 36px;
+            main {
+                margin-top: 40px;
             }
 
             .operations {
                 grid-template-columns: 1fr;
+            }
+
+            .panel {
+                padding: 18px;
             }
         }
     </style>
@@ -182,7 +217,7 @@
 
 <header>
     <div class="logo">SONORA</div>
-    <div class="status">● SYSTEM READY</div>
+    <div class="status">SYSTEM ONLINE</div>
 </header>
 
 <main>
@@ -190,158 +225,179 @@
     <section class="hero">
         <h1>Files, transformed.</h1>
         <p>
-            Hide files inside ordinary image and audio formats.
-            Recover them whenever you need.
+            A reversible storage system that hides files inside
+            ordinary image and audio formats.
         </p>
     </section>
 
     <section class="panel">
-        <h2>01 / Choose an operation</h2>
+        <div class="section-title">01 / OPERATION</div>
 
         <div class="operations">
-            <button class="operation" data-operation="encode/png">
-                <strong>🖼 Encode to PNG</strong>
-                <span>File → Image</span>
+            <button type="button" class="operation" data-operation="encode/png">
+                <strong>Encode to PNG</strong>
+                <span>File to image</span>
             </button>
 
-            <button class="operation" data-operation="encode/wav">
-                <strong>🔊 Encode to WAV</strong>
-                <span>File → Audio</span>
+            <button type="button" class="operation" data-operation="encode/wav">
+                <strong>Encode to WAV</strong>
+                <span>File to audio</span>
             </button>
 
-            <button class="operation" data-operation="decode/png">
-                <strong>📥 Decode PNG</strong>
-                <span>Image → Original file</span>
+            <button type="button" class="operation" data-operation="decode/png">
+                <strong>Decode PNG</strong>
+                <span>Image to original file</span>
             </button>
 
-            <button class="operation" data-operation="decode/wav">
-                <strong>🎵 Decode WAV</strong>
-                <span>Audio → Original file</span>
+            <button type="button" class="operation" data-operation="decode/wav">
+                <strong>Decode WAV</strong>
+                <span>Audio to original file</span>
             </button>
         </div>
     </section>
 
     <section class="panel">
-        <h2>02 / Select your file</h2>
+        <div class="section-title">02 / FILE SELECTION</div>
 
         <label class="upload">
             <input type="file" id="fileInput">
-            <div>☁️</div>
-            <p>Click to select a file</p>
+
+            <div class="upload-title">Select a file to process</div>
+            <div class="upload-subtitle">Maximum file size: 25 MB</div>
+
             <div id="filename">No file selected</div>
         </label>
 
-        <button class="run" id="runButton">
+        <button type="button" class="run" id="runButton">
             Execute operation
         </button>
 
         <div id="result"></div>
     </section>
 
+</main>
+
+<footer>
+    SONORA / MYTHOS STUDIOS
+</footer>
 
 <script>
-const API_URL = "https://sonora-57c9.onrender.com";
+    const buttons = document.querySelectorAll(".operation");
+    const fileInput = document.getElementById("fileInput");
+    const filename = document.getElementById("filename");
+    const runButton = document.getElementById("runButton");
+    const result = document.getElementById("result");
 
-let selectedOperation = null;
+    let selectedOperation = null;
 
-const buttons = document.querySelectorAll(".operation");
-const fileInput = document.getElementById("fileInput");
-const filename = document.getElementById("filename");
-const runButton = document.getElementById("runButton");
-const result = document.getElementById("result");
+    function showResult(message) {
+        result.textContent = message;
+        result.classList.add("visible");
+    }
 
-// Select operation
-buttons.forEach(button => {
-    button.addEventLi      stener("click", () => {
-        buttons.forEach(b => b.classList.remove("active"));
+    // Operation selection
+    buttons.forEach(button => {
+        button.addEventListener("click", () => {
+            buttons.forEach(item => item.classList.remove("active"));
 
-        button.classList.add("active");
-        selectedOperation = button.dataset.operation;
+            button.classList.add("active");
+            selectedOperation = button.dataset.operation;
 
-        result.textContent = "Selected: " + selectedOperation;
+            showResult("Selected operation: " + selectedOperation);
+        });
     });
-});
 
-// Display selected file
-fileInput.addEventListener("change", () => {
-    const file = fileInput.files[0];
+    // File selection
+    fileInput.addEventListener("change", () => {
+        const file = fileInput.files[0];
 
-    filename.textContent = file
-        ? file.name + " (" + (file.size / 1024).toFixed(2) + " KB)"
-        : "No file selected";
-});
+        filename.textContent = file
+            ? file.name + " (" + (file.size / 1024).toFixed(2) + " KB)"
+            : "No file selected";
+    });
 
-// Execute operation
-runButton.addEventListener("click", async () => {
-    const file = fileInput.files[0];
+    // Process file
+    runButton.addEventListener("click", async () => {
+        const file = fileInput.files[0];
 
-    if (!selectedOperation) {
-        result.textContent = "Please choose an operation first.";
-        return;
-    }
+        if (!selectedOperation) {
+            showResult("Please select an operation.");
+            return;
+        }
 
-    if (!file) {
-        result.textContent = "Please select a file first.";
-        return;
-    }
+        if (!file) {
+            showResult("Please select a file.");
+            return;
+        }
 
-    if (file.size > 25 * 1024 * 1024) {
-        result.textContent = "File exceeds the 25 MB limit.";
-        return;
-    }
+        if (file.size > 25 * 1024 * 1024) {
+            showResult("File exceeds the 25 MB limit.");
+            return;
+        }
 
-    runButton.disabled = true;
-    result.textContent = "Processing file...";
+        runButton.disabled = true;
+        runButton.textContent = "Processing...";
+        showResult("Uploading and processing your file...");
 
-    try {
-        const formData = new FormData();
-        formData.append("file", file);
+        try {
+            const formData = new FormData();
+            formData.append("file", file);
 
-        const response = await fetch(
-            `${API_URL}/${selectedOperation}`,
-            {
-                method: "POST",
-                body: formData
+            const response = await fetch(
+                "/" + selectedOperation,
+                {
+                    method: "POST",
+                    body: formData
+                }
+            );
+
+            if (!response.ok) {
+                let message = "Operation failed.";
+
+                try {
+                    const error = await response.json();
+                    message = error.detail || message;
+                } catch {}
+
+                throw new Error(message);
             }
-        );
 
-        if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.detail || "Operation failed.");
+            const blob = await response.blob();
+
+            let downloadName;
+
+            if (selectedOperation === "encode/png") {
+                downloadName = "sonora.png";
+            } else if (selectedOperation === "encode/wav") {
+                downloadName = "sonora.wav";
+            } else {
+                downloadName =
+                    response.headers.get("X-SONORA-Filename")
+                    || "recovered.bin";
+            }
+
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+
+            link.href = url;
+            link.download = downloadName;
+
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+            showResult("Success! Downloaded: " + downloadName);
+
+        } catch (error) {
+            showResult("Error: " + error.message);
+        } finally {
+            runButton.disabled = false;
+            runButton.textContent = "Execute operation";
         }
-
-        const blob = await response.blob();
-
-        // Get original filename from response header
-        let downloadName;
-
-        if (selectedOperation.startsWith("encode/")) {
-            downloadName = selectedOperation.endsWith("png")
-                ? "sonora.png"
-                : "sonora.wav";
-        } else {
-            downloadName =
-                response.headers.get("X-SONORA-Filename") || "recovered.bin";
-        }
-
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-
-        link.href = url;
-        link.download = downloadName;
-        link.click();
-
-        URL.revokeObjectURL(url);
-
-        result.textContent =
-            "Success! Your file is ready: " + downloadName;
-
-    } catch (error) {
-        result.textContent = "Error: " + error.message;
-    } finally {
-        runButton.disabled = false;
-    }
-});
+    });
 </script>
+
 </body>
 </html>
