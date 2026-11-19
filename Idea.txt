@@ -1,7 +1,0 @@
-Music into PNGS and vice versa
-Could be cool?
-minamalistic... requires a backend. Render?
-
-
-Installers should have all API required for the conversion?
-
